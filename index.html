@@ -87,6 +87,15 @@
     </section>
   </main>
 
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+  <script>
+    window.TrackJS && TrackJS.install({ 
+      token: "fbcc52bcc06e4512b94e943d86253022",
+      application: "lab9"
+      // for more configuration options, see https://docs.trackjs.com
+    });
+  </script>
+
   <script>
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
@@ -95,6 +104,8 @@
       let firstNum = document.querySelector('#first-num').value;
       let secondNum = document.querySelector('#second-num').value;
       let operator = document.querySelector('#operator').value;
+      checkNumericalInput(firstNum, secondNum);
+      checkZeroDivision(firstNum, secondNum, operator);
       output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
     });
 
@@ -102,7 +113,149 @@
 
     // Start your code here
     // You may move this JS to another file if you wish
+    // Console Log
+    errorBtns[0].addEventListener('click', () => {
+      console.log("Console Log Demo");
+    });
+
+    // Console Error
+    errorBtns[1].addEventListener('click', () => {
+      console.error("Console Error Demo");
+    });
+
+    // Console Count
+    errorBtns[2].addEventListener('click', () => {
+      console.count("counter");
+    });
+
+    // Console Warn
+    errorBtns[3].addEventListener('click', () => {
+      console.warn("Console Warn Demo");
+    });
+
+    // Console Assert
+    errorBtns[4].addEventListener('click', () => {
+      const num = 2;
+      const reason = 'The number does not equal 3';
+      console.assert(num == 3, {num, reason});
+    });
+
+    // Console Clear
+    errorBtns[5].addEventListener('click', () => {
+      console.clear();
+    });
+
+    // Console Dir
+    errorBtns[6].addEventListener('click', () => {
+      console.dir(errorBtns[6]);
+    });
+
+    // Console dirxml
+    errorBtns[7].addEventListener('click', () => {
+      console.dirxml(errorBtns[7]);
+    });
+
+    // Console Group Start
+    errorBtns[8].addEventListener('click', () => {
+      console.group();
+    });
+
+    // Console Group End
+    errorBtns[9].addEventListener('click', () => {
+      console.groupEnd();
+    });
+
+    // Console Table
+    errorBtns[10].addEventListener('click', () => {
+      const myClasses = [
+        {
+          name: 'Software Engineering',
+          dept: 'CSE',
+          num: 110
+        },
+        {
+          name: 'Theory of Computation',
+          dept: 'CSE',
+          num: 105
+        },
+        {
+          name: 'Intro to Cognitive Science',
+          dept: 'COGS',
+          num: 1
+        }
+      ];
+      console.table(myClasses);
+    });
+    // Start Timer
+    errorBtns[11].addEventListener('click', () => {
+      console.time('myTimer');
+    });
+
+    // End Timer
+    errorBtns[12].addEventListener('click', () => {
+      console.timeEnd('myTimer');
+    });
+
+    // Console Trace
+    errorBtns[13].addEventListener('click', () => {
+      const level1 = () => { level2(); };
+      const level2 = () => { level3(); };
+      const level3 = () => { level4(); };
+      const level4 = () => { console.trace(); };
+      level1();
+    });
+
+    // Trigger a Global Error
+
+
+
+    // Try/Catch
+    class ZeroDivisionError extends Error{
+      constructor(message){
+        super(message);
+        this.name = this.constructor.name;
+      }
+    }
+
+    class InvalidInput extends Error{
+      constructor(message){
+        super(message);
+        this.name = this.constructor.name;
+      }
+    }
+
+    function checkZeroDivision(firstNum, secondNum, operator){
+      if(operator === '/'){
+        try{
+          if(secondNum == 0){
+            throw new ZeroDivisionError("You can't divide by 0!")
+          }
+        }
+        catch(err){
+          console.error(err.name + ": " + err.message);
+        }
+      }
+      
+    }
+
+    function checkNumericalInput(firstNum, secondNum){
+      try{
+        if(isNaN(firstNum)){
+          throw new InvalidInput("Input 1 is not a numerical number")
+        }
+        if(isNaN(secondNum)){
+          throw new InvalidInput("Input 2 is not a numerical number")
+        }
+      }
+      catch(err){
+        console.error(err.name + ": " + err.message);
+      }
+    }
+
+
   </script>
 </body>
 
 </html>
+
+
